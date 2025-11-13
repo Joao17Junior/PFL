@@ -134,7 +134,7 @@ calculator env (l:ls) = do
     putStrLn out
     calculator env' ls  
 
--- | evaluate a single expression
+-- | execute each command
 execute :: Env -> String -> (String, Env)
 execute env txt
   = case parse command txt of
