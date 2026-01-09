@@ -1,3 +1,4 @@
+%%%% Family Relations %%%%
 % primeira gen
 male('Frank').
 female('Grace').
@@ -73,20 +74,20 @@ parent('Haley', 'George').
 parent('Dylan', 'George').
 parent('Haley', 'Poppy').
 parent('Dylan', 'Poppy').
+%%%%%%%%%%%%%%%%%%%%%
+%%%%% Exercises %%%%%
 
-%%% NEW RULES %%%
+% a)
 
-% father /2
-father(X, Y) :- male(X), parent(X, Y).
+%children(P,C):- findall(X, parent(P,X), C).    % only selects children (useful for list of all children)
+children(P,C):- bagof(X, parent(P,X), C).       % also groups every children to its parents
 
-% mother /2
-mother(X, Y) :- female(X), parent(X, Y).
+% b)
 
-% grandparent /2
-grandparent(X, Y) :- parent(X, Z), parent(Z, Y).
+children_of(LP, PC):- findall(LP-C, parent(LP, C), PC).
 
-% sibling /2
-sibling(X, Y) :- father(Z, X), father(Z, Y), mother(W, X), mother(W, Y), X\=Y.
+% c)
 
-% halfsiblings /2
-halfsiblings(X, Y) :- parent(Z, X), parent(Z, Y), X\=Y, \+ (parent(Q, X), parent(Q, Y), Q \= Z).
+family(F):- setof(X, Y^(parent(X,Y); parent(Y,X)), F).
+% sees all people of the family that is either Parent or Child
+% setof automatically removes duplicates and sorts the result
