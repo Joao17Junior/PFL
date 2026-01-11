@@ -59,19 +59,20 @@ my_functor(Term, Name, Arity):-
 % b) if X then Y else Z
 :- op(600, fx, if).
 :- op(500, xfy, then).
+:- op(500, xfy, elif).
 :- op(400, xfy, else).
 
-if Cond then Action else Alt :-
+if Cond then Rest :-
     Cond, !,
-    call(Action).     
+    process_this(Rest).
 
-if _Cond then _Action else Alt :-
-    call(Alt).
+if _Cond then Rest :-
+    process_next(Rest).
 
+process_this(Action elif _) :- !, call(Action).
+process_this(Action else _) :- !, call(Action).
+process_this(Action) :- call(Action).
 
-if Cond then Action :-
-    Cond, !,
-    call(Action).
-
-if _Cond then _Action .
+process_next(_Action elif ProxCond then Rest) :- if ProxCond then Rest.
+process_next(_Action else Alt) :- call(Alt).
 
