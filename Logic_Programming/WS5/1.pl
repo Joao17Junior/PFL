@@ -91,3 +91,6 @@ children_of(LP, PC):- findall(LP-C, parent(LP, C), PC).
 family(F):- setof(X, Y^(parent(X,Y); parent(Y,X)), F).
 % sees all people of the family that is either Parent or Child
 % setof automatically removes duplicates and sorts the result
+
+% e) couples(List) -> retorna lista de todos os casais com filhos, sem dups
+couples(L):- setof(X-Y, Child^(parent(X,Child), parent(Y,Child), X @< Y), L).
